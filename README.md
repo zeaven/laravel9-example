@@ -82,6 +82,7 @@ Traits
 ### 响应资源映射
 
 在控制器中返回数据时，需要对字段进行转换时使用
+
 参考 App\Common\Http\ResponseMappers\BaseResponseMapper.php 注释说明
 
 ### Common 核心扩展功能目录
@@ -118,6 +119,7 @@ Common 目录提供了一个可持续开发的项目模板，放在任何版本�
 ### restful 接口定义（管理后台使用）
 
 restful 接口一般在管理后台使用，对应数据的增删改查，其他应用的接口不推荐使用
+
 restful 接口定义规则如下：
 
 -   get /api/articles 文章列表，对应方法 index
@@ -133,6 +135,7 @@ restful 接口定义规则如下：
 **在使用前，请先在.env添加postman的apitoken配置， POSTMAN_API_TOKEN=**
 
 使用 Artisan 命令 pm:run 即可
+
 选择从 postman 的集合目录中生成网络层代码，可以选择多级目录，选择「生成代码」或最后一级目录即开始生成代码
 
 ### 领域代码生成
@@ -148,6 +151,7 @@ restful 接口定义规则如下：
 ## 注解日志
 
 注解日志采用控制器方法添加注解的方式实现
+
 如
 
 ```php
@@ -223,6 +227,7 @@ class LoginRequest extends ApiRequest
 ## 抛出异常
 
 请在对应语言包添加error_code.php错误码配置文件，参考Common\Libs\ErrorCode\config.php
+
 错误信息支持本地化变更替换
 
 ```php
@@ -263,7 +268,9 @@ throw_on($user->status === -1, '异常信息', 0x000001);
 ## 自定义用户提供者
 
 提供把用户信息和登录信息分开存放在不同的表，实现登录和业务信息分开
+
 使用Auth::attempt()走登录信息表，Auth::user()获取用户信息表
+
 详细查看Common\Libs\Auth\readme.md
 
 
