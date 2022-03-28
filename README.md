@@ -131,6 +131,7 @@ restful 接口定义规则如下：
 #### 接口同步代码生成
 
 **在使用前，请先在.env添加postman的apitoken配置， POSTMAN_API_TOKEN=**
+
 使用 Artisan 命令 pm:run 即可
 选择从 postman 的集合目录中生成网络层代码，可以选择多级目录，选择「生成代码」或最后一级目录即开始生成代码
 
