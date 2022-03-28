@@ -91,8 +91,11 @@ Common
 ├─Config // 全局配置目录
 ├─Console // 全局命令、任务调度
 ├─Libs // 扩展
+│  ├─Annotations 注解日志
+│  ├─Validators 自定义参数验证
+│  ├─ErrorCode  错误码服务
 ├─Http // 全局网络层（中间件）
-├─Validators // 参数验证器
+├─Services // 自定义第三方服务
 └─Providers // 全局服务提供者
 ```
 
@@ -142,7 +145,8 @@ restful 接口定义规则如下：
 
 ## 注解日志
 
-注解日志采用控制器方法添加注解的方式实现，如
+注解日志采用控制器方法添加注解的方式实现
+如
 
 ```php
     use App\Common\Libs\Annotations\AnnoLog; // 必须引用注解命名空间
@@ -186,6 +190,32 @@ restful 接口定义规则如下：
 
 ```php
 $param = $request->params(false);    // $param=['username' => 'xxx', 'page' => xx]
+```
+
+使用代码生成器生成的Request如下：
+```php
+/**
+ *
+ * @authors generator
+ * @date    2022-03-28 15:14:19
+ */
+class LoginRequest extends ApiRequest
+{
+    /**
+     * 返回参数验证规则.
+     *
+     * @return array
+     */
+    protected function rule(): array
+    {
+        return [
+            // 用户名
+            'username' => ['rule' => 'required'],
+            // 密码
+            'password' => ['rule' => 'required|min:4'],
+        ];
+    }
+}
 ```
 
 ## 抛出异常
