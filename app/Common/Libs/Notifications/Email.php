@@ -8,6 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 class Email extends Mailable
 {
+    public string $name;
+
     use Queueable;
     use SerializesModels;
 
@@ -18,9 +20,10 @@ class Email extends Mailable
      *
      * @param string $content
      */
-    public function __construct(string $content)
+    public function __construct(string $name, string $content)
     {
         $this->content = $content;
+        $this->name = $name;
     }
 
 

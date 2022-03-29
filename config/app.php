@@ -30,6 +30,8 @@ return [
 
     'env' => env('APP_ENV', 'production'),
 
+    'domain' => env('DOMAIN', env('APP_URL')),
+
     /*
     |--------------------------------------------------------------------------
     | Application Debug Mode

@@ -2,12 +2,14 @@
     {{--     Header --}}
     @slot('header')
         @component('./vendor/mail/html/header', ['url' => config('app.url')])
-            zeaven.cc
+            {{ config('app.domain') }}
         @endcomponent
     @endslot
 
     {{--     Body --}}
-    {!! $content !!}
+    ### {{ $name }}(先生/女士)，您好！
+
+    {{ $content }}
 
     {{--     Subcopy --}}
     @isset($subcopy)
@@ -21,7 +23,7 @@
     {{--     Footer --}}
     @slot('footer')
         @component('./vendor/mail/html/footer')
-            © {{ date('Y') }} zeaven.cc @lang('All rights reserved.')
+            © {{ date('Y') }} {{ config('app.domain') }} @lang('All rights reserved.')
         @endcomponent
     @endslot
 @endcomponent

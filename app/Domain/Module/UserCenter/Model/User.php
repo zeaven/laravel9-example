@@ -10,6 +10,7 @@ namespace App\Domain\Module\UserCenter\Model;
 
 use App\Domain\Core\AuthModel;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * App\Domain\Module\UserCenter\Model\User
@@ -38,6 +39,7 @@ use Laravel\Sanctum\HasApiTokens;
 class User extends AuthModel
 {
     use HasApiTokens;
+    use Notifiable;
 
     /**
      * The attributes that should be cast.
@@ -47,6 +49,11 @@ class User extends AuthModel
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function routeNotificationForMail()
+    {
+        return $this->email;
+    }
 
     public function account()
     {

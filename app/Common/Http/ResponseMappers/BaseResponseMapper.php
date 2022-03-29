@@ -20,13 +20,13 @@ use Illuminate\Support\HigherOrderTapProxy;
  *      'name' => 'username',
  *      'status' => 'status_text'
  *  ]
- *  // 将字段'user.0.role.name' 的值经过多个handle转换后映射到面级role字段
+ *  // 将字段'user.0.role.name' 的值经过多个handle转换后映射到顶级role字段
  * 'role' => ['user.0.role.name', RoleHandler::class, ...] // 通过RoleHandler类进行转换，可填多个
  *
  * RoleHandler::class 说明：
  * class RoleHandler
  * {
- *     // $value为键：user.0.role.name对应值， $data为当前记录user.0.role的值
+ *     // $value为键：user.0.role.name对应值/或上一个handler返回值， $data为当前记录user.0.role的值
  *     public function handle($value, $data)
  *     {
  *         return $value. $data['description'];
