@@ -2,6 +2,7 @@
 
 namespace App\Domain\Module\UserCenter\Traits;
 
+use App\Common\Libs\Auth\CacheEloquentUserProvider;
 use App\Domain\Core\Model;
 use App\Domain\Module\UserCenter\Entity\UserEntity;
 use Arr;
@@ -19,6 +20,8 @@ trait UserUpdateTrait
         $user = $uid ? UserEntity::findOrFail($uid) : $this->ctx->user;
 
         $info = Arr::only($data, ['nickname', 'email']);
+
+        CacheEloquentUserProvider::refresh($user->uid);
 
         return tap($user)->update($info);
     }

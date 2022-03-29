@@ -65,9 +65,8 @@ trait UserLoginTrait
                 $token = request()->bearerToken();
                 if ($token) {
                     $accessToken = PersonalAccessToken::findToken($token);
-                } else {
-                    auth()->logout();
                 }
+                request()->session()->flush();
             }
         } else {
             $accessToken = PersonalAccessToken::findToken($token);
