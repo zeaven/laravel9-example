@@ -156,14 +156,11 @@ restful 接口定义规则如下：
 
 ```php
     use App\Common\Libs\Annotations\AnnoLog; // 必须引用注解命名空间
-    /**
-     * @AnnoLog(type=1, tpl="{{mobile}},{{type}}审核提现,订单号{{order_no}},签名{{sign}}")
-     * @param  TestRequest $request [description]
-     * @return [type]               [description]
-     */
+
+    #[AnnoLog(type:1, tpl:"{{mobile}},{{type}}审核提现,订单号{{order_no}},签名{{sign}}")]
     public function index(TestRequest $request)
     {
-        // 设置日志模板变更
+        // 设置日志模板变量
         anno_log(['order_no' => 'test', 'sign' => 'sign']);
         // 或
         anno_log('order_no', 'test');

@@ -23,11 +23,11 @@ class TestController extends Controller
     }
 
     /**
-     * AnnoLog(type=1, tpl="测试日志：{{time}}")
      *
      * @param  ApiRequest $request [description]
      * @return Response
      */
+    #[AnnoLog(type:1, tpl:"测试日志：{time}")]
     public function home(HomeRequest $request)
     {
         $data = $request->params(true);

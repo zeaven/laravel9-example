@@ -2,9 +2,10 @@
 
 namespace App\Common\Libs\Annotations;
 
-use Doctrine\Common\Annotations\AnnotationReader;
+// use Doctrine\Common\Annotations\AnnotationReader;
 use ReflectionMethod;
 use Arr;
+use Attribute;
 use Str;
 
 /**
@@ -15,6 +16,7 @@ use Str;
  * @Annotation
  * @Target({"METHOD"})
  */
+#[Attribute(Attribute::TARGET_METHOD)]
 class AnnoLog
 {
     /**
@@ -22,13 +24,17 @@ class AnnoLog
      * 1管理员，2投资者用户，3居间商，4系统生成
      * @var int
      */
-    public int $type;
+    // private int $type;
     /**
      * @Required()
      *
      * @var string
      */
-    public string $tpl;
+    // private string $tpl;
+
+    public function __construct(private int $type, private string $tpl)
+    {
+    }
 
     public function toArray()
     {
@@ -58,12 +64,13 @@ class AnnoLog
     {
         [$ctrl, $method] = explode('@', $action);
         $rm = new ReflectionMethod($ctrl, $method);
-        $reder = new AnnotationReader();
+        // $reader = new AnnotationReader();
 
-        $annotation = $reder->getMethodAnnotation($rm, self::class);
+        // $annotation = $reader->getMethodAnnotation($rm, self::class);
+        $attrs = $rm->getAttributes(self::class);
 
-        if ($annotation) {
-            return $annotation->toArray();
+        if (count($attrs)) {
+            return $attrs[0]->newInstance()->toArray();
         }
     }
 }
