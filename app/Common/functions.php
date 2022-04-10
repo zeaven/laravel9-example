@@ -251,3 +251,20 @@ if (!function_exists('locker')) {
         return cache()->lock($name, $expire)->block($wait, $closure);
     }
 }
+
+if (!function_exists('locker_trans')) {
+    /**
+     * redis锁，并开始数据库事务
+     * @param string $name 锁名，保证唯一性
+     * @param callable $closure
+     * @param integer $expire 过期时间(秒)，超过时间任务未完成，将无法阻塞其他任务
+     * @param integer $wait 等待时间(秒)，超过时间无法获得涣，将抛异常
+     * @return [type]          [description]
+     */
+    function locker_trans(string $name, callable $closure, int $expire = 10, int $wait = 20)
+    {
+        return locker($name, function () use ($closure) {
+            return db_trans($closure);
+        }, $expire, $wait);
+    }
+}
