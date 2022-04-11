@@ -26,7 +26,6 @@ class TokenRefreshAuthenticate extends Authenticate
     public function handle($request, Closure $next, ...$guards)
     {
         $newAccessToken = $this->authenticate($request, $guards);
-
         $response = $next($request);
 
         if ($newAccessToken) {
