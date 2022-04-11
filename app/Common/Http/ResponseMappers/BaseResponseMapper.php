@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Commons\Http\ResponseMappers;
+namespace App\Common\Http\ResponseMappers;
 
 use Arr;
 use Illuminate\Contracts\Support\Arrayable;
@@ -37,7 +37,7 @@ use Illuminate\Support\HigherOrderTapProxy;
  */
 abstract class BaseResponseMapper implements Arrayable
 {
-    public static $handlerInstances = [];
+    protected static $handlerInstances = [];
     private $_value;
     /**
      * 属性映射配置
@@ -61,7 +61,7 @@ abstract class BaseResponseMapper implements Arrayable
         return ($this->_value instanceof Collection) || is_array($this->_value);
     }
 
-    public static function getHandler(string $handle_class)
+    protected static function getHandler(string $handle_class)
     {
         if (array_key_exists($handle_class, static::$handlerInstances)) {
             return static::$handlerInstances[$handle_class];
@@ -73,7 +73,7 @@ abstract class BaseResponseMapper implements Arrayable
     public function toArray()
     {
         $data = $this->_value;
-        if (method_exists($data, 'toArray')) {
+        if (!is_array($data) && method_exists($data, 'toArray')) {
             $data = $data->toArray();
         }
         $mappers = $this->mapper ?? [];
