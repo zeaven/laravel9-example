@@ -10,6 +10,7 @@ namespace App\Domain\Traits\Common;
 
 use App\Domain\Core\Model;
 use Str;
+use Hidehalo\Nanoid\Client;
 
 trait ModelUUID
 {
@@ -17,7 +18,12 @@ trait ModelUUID
     {
         static::creating(function (Model &$model) {
             if (empty($model->uid)) {
-                $model->uid = Str::orderedUuid()->toString();
+                // $model->uid = Str::orderedUuid()->toString();
+                $client = new Client();
+
+                # default random generator
+                $model->uid = $client->formattedId('0123456789abcdefghijklmnopqrstuvwxyz', 21);
+                // $model->uid = $client->generateId(21);
             }
         });
     }
