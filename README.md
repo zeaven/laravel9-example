@@ -257,10 +257,6 @@ throw_on($user->status === -1, '异常信息', 0x000001);
 6. error_code 国际化文件移动对应的语言目录下的error_code.php
 
 
-## Sanctum认证扩展
-
-添加自动刷新token机制，请查看Common\Libs\SanctumExtension\readme.md
-
 
 ## 自定义用户提供者
 
@@ -269,6 +265,27 @@ throw_on($user->status === -1, '异常信息', 0x000001);
 使用Auth::attempt()走登录信息表，Auth::user()获取用户信息表
 
 详细查看Common\Libs\Auth\readme.md
+
+
+## Sanctum和Jwt认证
+
+### Sanctum认证扩展
+
+添加自动刷新token机制，请查看Common\Libs\SanctumExtension\readme.md
+
+### 使用Sanctum
+> 1. 在app.php添加配置 App\Common\Libs\SanctumExtension\SanctumExtensionProvider::class,
+> 2. 修改auth.php默认guard为web
+> 3. 在需要认证的路由添加中间件'auth:sanctum'
+
+### Jwt认证扩展
+
+添加自动刷新Token机制
+
+### 使用Jwt认证
+> 1. 在app.php添加配置 App\Common\Libs\Jwt\JwtAuthencicateProvider::class,
+> 2. 修改auth.php默认guard为jwt
+> 3. 在需要认证的路由添加中间件'auth:jwt'
 
 
 ## DDD领域驱动说明
