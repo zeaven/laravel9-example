@@ -12,7 +12,8 @@
         "laravel/horizon": "^5.9",
         "laravel/octane": "^1.2",
         "laravel/sanctum": "^2.14.1",
-        "laravel/tinker": "^2.7"
+        "laravel/tinker": "^2.7",
+        "tymon/jwt-auth": "dev-develop"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",

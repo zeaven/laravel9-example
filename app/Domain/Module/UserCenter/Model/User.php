@@ -9,8 +9,9 @@
 namespace App\Domain\Module\UserCenter\Model;
 
 use App\Domain\Core\AuthModel;
-use Laravel\Sanctum\HasApiTokens;
+use App\Domain\Core\JwtModel;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\Domain\Module\UserCenter\Model\User
@@ -36,7 +37,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUsername($value)
  * @mixin \Eloquent
  */
-class User extends AuthModel
+class User extends JwtModel
 {
     use HasApiTokens;
     use Notifiable;

@@ -13,6 +13,7 @@ use App\Common\Libs\Auth\CacheEloquentUserProvider;
 use App\Domain\Core\Model;
 use Laravel\Sanctum\PersonalAccessToken;
 use Laravel\Sanctum\TransientToken;
+use Laravel\Sanctum\HasApiTokens;
 
 trait UserLoginTrait
 {
@@ -34,9 +35,12 @@ trait UserLoginTrait
         // 清除已存在的缓存，当缓存的登录信息有延时，通过重新登录可刷新
         $this->clearLoginInfo($user);
 
-        $accessToken = $user->createToken($tokenName);
+        if (in_array(HasApiTokens::class, class_uses($user))) {
+            $accessToken = $user->createToken($tokenName);
+            $success = $accessToken->plainTextToken;
+        }
 
-        return ['token' => $accessToken->plainTextToken];
+        return ['token' => $success];
     }
 
     /**
@@ -58,21 +62,25 @@ trait UserLoginTrait
      */
     public function userLogout(?string $token = null)
     {
-        // 此处不清除用户登录缓存，有可能同一账号在多个终端登录
-        if (empty($token)) {
-            $accessToken = $this->ctx->user->currentAccessToken();
-            if ($accessToken instanceof TransientToken) {
-                $token = request()->bearerToken();
-                if ($token) {
-                    $accessToken = PersonalAccessToken::findToken($token);
+        if (in_array(HasApiTokens::class, class_uses($this->user))) {
+            // 此处不清除用户登录缓存，有可能同一账号在多个终端登录
+            if (empty($token)) {
+                $accessToken = $this->ctx->user->currentAccessToken();
+                if ($accessToken instanceof TransientToken) {
+                    $token = request()->bearerToken();
+                    if ($token) {
+                        $accessToken = PersonalAccessToken::findToken($token);
+                    }
+                    request()->session()->flush();
                 }
-                request()->session()->flush();
+            } else {
+                $accessToken = PersonalAccessToken::findToken($token);
+            }
+            if ($accessToken) {
+                $accessToken->delete();
             }
         } else {
-            $accessToken = PersonalAccessToken::findToken($token);
-        }
-        if ($accessToken) {
-            $accessToken->delete();
+            auth()->logout();
         }
     }
 

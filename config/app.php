@@ -189,6 +189,7 @@ return [
         App\Common\Libs\Validators\ValidatorServiceProvider::class,
         App\Common\Libs\EloquentExtension\EloquentExtensionProvider::class,
         App\Common\Libs\SanctumExtension\SanctumExtensionProvider::class,
+        // App\Common\Libs\Jwt\JwtAuthencicateProvider::class,
     ],
 
     /*

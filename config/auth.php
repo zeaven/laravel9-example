@@ -43,6 +43,10 @@ return [
         'api' => [
             'driver' => 'session',
             'provider' => 'cache',
+        ],
+        'jwt' => [
+            'driver' => 'jwt',
+            'provider' =>  'cache',
         ]
     ],
 
