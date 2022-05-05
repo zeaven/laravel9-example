@@ -2,9 +2,12 @@
 
 namespace App\Common\Libs\SanctumExtension;
 
+use App\Common\Libs\SanctumExtension\Listeners\TokenAuthenticatedListener;
 use App\Common\Libs\SanctumExtension\Middleware\TokenRefreshAuthenticate;
 use App\Http\Middleware\Authenticate;
+use Event;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\Events\TokenAuthenticated;
 
 class SanctumExtensionProvider extends ServiceProvider
 {
@@ -32,6 +35,9 @@ class SanctumExtensionProvider extends ServiceProvider
      */
     public function boot()
     {
-        // TODO: Implement booted() method.
+        Event::listen(
+            TokenAuthenticated::class,
+            [TokenAuthenticatedListener::class, 'handle']
+        );
     }
 }

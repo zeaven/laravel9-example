@@ -55,6 +55,7 @@ class TokenRefreshAuthenticate extends Authenticate
             if ($this->auth->guard($guard)->check()) {
                 $this->auth->shouldUse($guard);
                 $newAccessToken = $this->refreshToken($this->auth->user());
+
                 return $newAccessToken;
             }
         }
@@ -86,6 +87,7 @@ class TokenRefreshAuthenticate extends Authenticate
                         // 过期刷新
                         return DB::transaction(function () use ($currentAccessToken, $removeToken) {
                             $newAccessToken = $currentAccessToken->tokenable->createToken($currentAccessToken->name, $currentAccessToken->abilities);
+                            auth()->guard(config('sanctum.guard')[0])->login($currentAccessToken->tokenable);
                             $removeToken && $currentAccessToken->delete();     // 自行判断是否删除
 
                             return $newAccessToken;

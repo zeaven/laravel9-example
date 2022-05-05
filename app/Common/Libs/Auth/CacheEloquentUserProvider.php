@@ -187,4 +187,9 @@ class CacheEloquentUserProvider extends EloquentUserProvider
 
         return $model->$relation;
     }
+
+    public function getFields(): array
+    {
+        return $this->fields;
+    }
 }
