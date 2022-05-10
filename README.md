@@ -46,7 +46,7 @@ Http
 ```
 
 1. 网络层只能触发业务，不能包涵有业务逻辑，以便不同的接口能调用相同的业务逻辑
-2. 参数验证和用户登录态信息只能在控制器层获取，这些不属于业务逻辑，请通过参数传递到业务层
+2. 参数验证和用户登录态信息只能在控制器层获取(如果使用领域服务，可在领域上下文直接获取)，这些不属于业务逻辑，请通过参数传递到业务层
 3. 网络层可增加 Resources 目录，提供对响应数据结构做转换（不同的接口可能调用相同的业务逻辑，但返回结果不一致）
 
 ### Logics 业务逻辑层
@@ -59,7 +59,9 @@ Http
 
 1. 一个控制器(Controllers)对应一个业务逻辑(Logics)；
 2. 一个控制器对应多个请求对象(Requests)，即一个 Controller 文件有一个对应的 Requests 目录；
-3. 一个业务逻辑对应多个业务特性，即一个 Logic 文件有一个对应的 Traits 目录；
+3. 一个业务逻辑对应多个业务特性，即一个 Logic 文件有一个对应的 Traits 目录(非必须)；
+
+Traits目录文件代码器不会生成，可根据业务复杂度将逻辑折成多个Trait文件方便管理
 
 ```
 Http
@@ -90,11 +92,12 @@ Traits
 ```
 Common
 ├─Config // 全局配置目录
-├─Console // 全局命令、任务调度
+├─Console // 全局命令、任务调度、代码生成器
 ├─Libs // 扩展
 │  ├─Annotations 注解日志
 │  ├─Validators 自定义参数验证
 │  ├─ErrorCode  错误码服务
+│  └─...其它
 ├─Http // 全局网络层（中间件）
 ├─Services // 自定义第三方服务
 └─Providers // 全局服务提供者
@@ -152,12 +155,14 @@ restful 接口定义规则如下：
 
 注解日志采用控制器方法添加注解的方式实现
 
+日志默认使用laravel的日志服务，你可以在App\Common\Libs\Annotations\AnnoLogMiddleware.php 修改为保存到你想要的地方
+
 如
 
 ```php
     use App\Common\Libs\Annotations\AnnoLog; // 必须引用注解命名空间
 
-    #[AnnoLog(type:1, tpl:"{{mobile}},{{type}}审核提现,订单号{{order_no}},签名{{sign}}")]
+    #[AnnoLog(type:1, tpl:"{mobile},{type}审核提现,订单号{order_no},签名{sign}")]
     public function index(TestRequest $request)
     {
         // 设置日志模板变量
@@ -170,7 +175,7 @@ restful 接口定义规则如下：
 
 ### 内置注解模板变量
 
-在用户登录状态下，登录用户的如下信息将自动添加到模板变量，可直接使用：
+在用户登录状态下，登录用户模型的缓存字段信息将自动添加到模板变量，可直接使用，如：
 
 -   uid
 -   mobile
@@ -187,6 +192,8 @@ restful 接口定义规则如下：
 
 ```php
 [$username, $page] = $request->params(['username', 'page'])
+// 或
+$params = $request->values(); // 返回对应Request对象定义的参数数组值
 ```
 
 ### 获取 key-value 数组
@@ -195,7 +202,7 @@ restful 接口定义规则如下：
 $param = $request->params(false);    // $param=['username' => 'xxx', 'page' => xx]
 ```
 
-使用代码生成器生成的Request如下：
+使用代码生成器生成的Request代码如下：
 ```php
 /**
  *
