@@ -10,24 +10,22 @@
 namespace App\Domain\Traits\MobileMask;
 
 use App\Domain\Traits\MobileMask\MobileMaskScope;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 trait MobileMask
 {
-    public static $_scope;
-
     public static function bootMobileMask()
     {
-        static::$_scope = new MobileMaskScope();
         // 添加查询作用域
-        static::addGlobalScope(static::$_scope);
+        static::addGlobalScope(new MobileMaskScope());
     }
 
-    public function getMobileAttribute($value)
+    protected function mobile(): Attribute
     {
-        if (static::$_scope->_enable === true) {
-            return preg_replace('/(\d{3})(\d{4})(\d{1,})$/', '$1****$3', $value);
-        } else {
-            return $value;
-        }
+        $scope = static::getGlobalScope(MobileMaskScope::class);
+        return new Attribute(
+            get: fn ($value) => empty($scope->_mobileMask) ? $value
+                : preg_replace('/(\d{3})(\d{4})(\d{1,})$/', '$1' . str_repeat($scope->_mobileMask, 4) . '$3', $value),
+        );
     }
 }

@@ -15,8 +15,8 @@ use Illuminate\Database\Eloquent\Scope;
 
 class MobileMaskScope implements Scope
 {
-    protected $extensions = ['phoneMask'];
-    public $_enable = false;
+    protected $extensions = ['MobileMask'];
+    public $_mobileMask = '';
 
     /**
      * Apply the scope to a given Eloquent query builder.
@@ -43,10 +43,10 @@ class MobileMaskScope implements Scope
     }
 
 
-    protected function addPhoneMask(Builder $builder)
+    protected function addMobileMask(Builder $builder)
     {
-        $builder->macro('phoneMask', function (Builder $builder, $enable = true) {
-            $this->_enable = $enable;
+        $builder->macro('mobileMask', function (Builder $builder, $mask = '*') {
+            $this->_mobileMask = $mask;
             return $builder;
         });
     }

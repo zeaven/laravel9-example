@@ -10,6 +10,7 @@ namespace App\Domain\Module\UserCenter\Model;
 
 use App\Domain\Core\AuthModel;
 use App\Domain\Core\JwtModel;
+use App\Domain\Traits\Common\TypeTextTrait;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 

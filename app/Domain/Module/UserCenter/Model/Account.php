@@ -9,6 +9,7 @@
 namespace App\Domain\Module\UserCenter\Model;
 
 use App\Domain\Core\AuthModel;
+use App\Domain\Traits\MobileMask\MobileMask;
 use Laravel\Sanctum\HasApiTokens;
 
 /**
@@ -40,6 +41,9 @@ use Laravel\Sanctum\HasApiTokens;
 class Account extends AuthModel
 {
     use HasApiTokens;
+    use MobileMask;
+
+    protected $hidden = ['password'];
 
     public function user()
     {
