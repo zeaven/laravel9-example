@@ -22,7 +22,7 @@ abstract class DomainService
     {
         $key = defined('static::CONFIG') ? static::CONFIG : '';
         if ($key) {
-            $this->config = config('services.' . $key);
+            $this->config = config('common.domain.' . $key);
         }
         $ctx = defined('static::CONTEXT') ? static::CONTEXT : '';
         if ($ctx) {

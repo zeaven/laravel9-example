@@ -21,8 +21,8 @@ abstract class DomainContext
 
     public function __construct()
     {
-        // $this->domainName = str_replace('Context', '', class_basename($this)) . '.';
-        static::bindings($this->services);
+        $this->domainName = str(get_class($this))->before('Context') . 'Context\\';
+        static::bindings($this->services, $this->domainName);
     }
 
     private static function bindings(array $services, string $domain = '')
@@ -37,13 +37,21 @@ abstract class DomainContext
                 continue;
             }
             // 如果没有使用Octane加速，可改为单例绑定
-            // $container->singletonIf(
-            $container->bindIf(
-                $domain . $key,
-                function () use ($class) {
-                    return resolve($class);
-                }
-            );
+            if (php_sapi_name() === 'cli') {
+                $container->bindIf(
+                    $domain . $key,
+                    function () use ($class) {
+                        return resolve($class);
+                    }
+                );
+            } else {
+                $container->singletonIf((
+                    $domain . $key,
+                    function () use ($class) {
+                        return resolve($class);
+                    }
+                );
+            }
         }
     }
 

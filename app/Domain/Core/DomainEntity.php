@@ -15,10 +15,15 @@ abstract class DomainEntity
     protected static $entityInstance = [];
     public function __call($method, $paramters)
     {
-        if (!isset(static::$entityInstance[static::class]) && defined('static::ENTITY')) {
-            static::$entityInstance[static::class] = app(static::ENTITY);
+        throw_on(!defined('static::ENTITY'), 'server domain error');
+        if (!isset(static::$entityInstance[static::class])) {
+            if (php_sapi_name() === 'cli') {
+                $instance = app(static::ENTITY);
+            } else {
+                static::$entityInstance[static::class] = app(static::ENTITY);
+                $instance = static::$entityInstance[static::class];
+            }
         }
-        $instance = static::$entityInstance[static::class] ?? null;
         if ($instance) {
             return $instance->$method(...$paramters);
         }
