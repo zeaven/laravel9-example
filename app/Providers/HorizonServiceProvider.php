@@ -34,7 +34,6 @@ class HorizonServiceProvider extends HorizonApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewHorizon', function ($user = null) {
-            dump($user?->toArray());
             return $user; // && in_array($user->username, ['admin','superadmin']);
         });
     }

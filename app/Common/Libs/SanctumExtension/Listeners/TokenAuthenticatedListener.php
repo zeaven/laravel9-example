@@ -19,7 +19,6 @@ class TokenAuthenticatedListener
             $fields = $userProvider->getFields();
             $user = $event->token->tokenable;
             $user->setVisible($fields);
-            dump($fields);
         }
     }
 }
