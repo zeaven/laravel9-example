@@ -45,7 +45,7 @@ abstract class DomainContext
                     }
                 );
             } else {
-                $container->singletonIf((
+                $container->singletonIf(
                     $domain . $key,
                     function () use ($class) {
                         return resolve($class);
