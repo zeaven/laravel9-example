@@ -57,6 +57,8 @@ if (! function_exists('api_user_routes')) {
         Route::get('user/info', "User\UserController@info");
         // 修改用户信息 /api/user/info-update
         Route::post('user/info-update', "User\UserController@infoUpdate");
+        // 检索用户 /api/user/search
+        Route::get('user/search', "User\UserController@search");
     }/*** api_user_routes end ***/
 }
 

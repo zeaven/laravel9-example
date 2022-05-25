@@ -13,6 +13,7 @@ use App\Domain\Core\JwtModel;
 use App\Domain\Traits\Common\TypeTextTrait;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 
 /**
  * App\Domain\Module\UserCenter\Model\User
@@ -42,6 +43,7 @@ class User extends JwtModel
 {
     use HasApiTokens;
     use Notifiable;
+    use Searchable;
 
     /**
      * The attributes that should be cast.

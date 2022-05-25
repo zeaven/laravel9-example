@@ -7,7 +7,7 @@
  * @version $Id$
  */
 
-namespace App\Commons\Deploy;
+namespace App\Common\Libs;
 
 use Composer\Script\Event;
 use Composer\Installer\PackageEvent;

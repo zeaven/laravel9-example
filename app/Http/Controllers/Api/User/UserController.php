@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiRequest;
 use App\Http\Requests\Api\User\InfoUpdateRequest;
+use App\Http\Requests\Api\User\SearchRequest;
 use App\Logics\Api\User\UserLogic;
 
 /**
@@ -46,6 +47,21 @@ class UserController extends Controller
         // 请求传入的参数值，要获取key/value参数数组请使用 $param = $request->params();
         [$nickname, $email] = $request->values();
         $result = $this->logic->infoUpdate($nickname, $email);
+
+        return ok($result);
+    }
+
+    /**
+     * 检索用户 /api/user/search
+     *
+     * @param  SearchRequest $request [description]
+     * @return Response
+     */
+    public function search(SearchRequest $request)
+    {
+        // 请求传入的参数值，要获取key/value参数数组请使用 $param = $request->params();
+        [$value] = $request->values();
+        $result = $this->logic->search($value);
 
         return ok($result);
     }

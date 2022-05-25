@@ -2,6 +2,7 @@
 
 namespace App\Logics\Api\User;
 
+use App\Domain\Module\UserCenter\Model\User;
 use App\Domain\Module\UserCenter\Service\UserService;
 
 /**
@@ -19,5 +20,10 @@ class UserLogic
     public function infoUpdate(string $nickname, string $email)
     {
         return app(UserService::class)->updateInfo(compact('nickname', 'email'));
+    }
+
+    public function search(string $value = '')
+    {
+        return User::search($value)->get();
     }
 }
