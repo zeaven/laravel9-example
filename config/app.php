@@ -190,6 +190,7 @@ return [
         App\Common\Libs\EloquentExtension\EloquentExtensionProvider::class,
         App\Common\Libs\SanctumExtension\SanctumExtensionProvider::class,
         // App\Common\Libs\Jwt\JwtAuthencicateProvider::class,
+        App\Common\Libs\MeiliSearch\MeiliSearchServiceProvider::class,
     ],
 
     /*
