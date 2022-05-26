@@ -77,7 +77,6 @@ services:
             MEILI_DB_PATH: 'data.ms/'
             MEILI_HTTP_ADDR: '0.0.0.0:7700'
             MEILI_MASTER_KEY: '${MEILISEARCH_KEY}'
-        # command: ["/bin/sh", "-c", "./meilisearch --master-key=\"${MEILISEARCH_KEY}\""]
     mailhog:
         image: 'mailhog/mailhog:latest'
         ports:
