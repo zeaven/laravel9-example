@@ -16,8 +16,11 @@ class JwtAuthencicateProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(Authenticate::class, function ($app) {
-            return new AutoRefreshJwtAuth($app['auth']);
-        });
+        // 指定路由开启 api 验证
+        $this->app->when(['App\Http\Controllers\Api', 'App\Http\Controllers\Admin'])
+            ->needs(Authenticate::class)
+            ->give(function ($app) {
+                return new AutoRefreshJwtAuth($app['auth']);
+            });
     }
 }

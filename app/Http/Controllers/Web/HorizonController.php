@@ -16,7 +16,7 @@ class HorizonController extends Controller
             ]
         );
 
-        if (!$jwt_token = auth()->attempt(compact('username', 'password'))) {
+        if (!auth()->attempt(compact('username', 'password'))) {
             throw_e('账号密码错误');
         }
 

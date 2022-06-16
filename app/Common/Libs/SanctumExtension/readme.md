@@ -41,3 +41,9 @@ Sanctum验证分为同源和第三方请求
 > **注：自动刷新token必须添加Authorization请求头**
 > 
 >> 每次刷新token后，请求的响应头会添加 Authorization 返回新的token，将其替换掉原来的token即可
+
+### 指定验证路由
+
+> 验证方式对应的Provider会替换掉默认的Authenticate对象，以接管验证逻辑
+> 但是默认的路由或第三方包提供的接口不希望验证受到影响
+> 所以指定了Api或Admin下的控制器才走自定义验证，可自行修改其他路由地址

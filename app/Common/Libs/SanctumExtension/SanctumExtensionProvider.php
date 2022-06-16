@@ -22,9 +22,12 @@ class SanctumExtensionProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(common_path('Libs/SanctumExtension/sanctum.php'), 'sanctum');
 
-        $this->app->bind(Authenticate::class, function ($app) {
-            return new TokenRefreshAuthenticate($app['auth']);
-        });
+        // 指定路由开启 api 验证
+        $this->app->when(['App\Http\Controllers\Api', 'App\Http\Controllers\Admin'])
+            ->needs(Authenticate::class)
+            ->give(function ($app) {
+                return new TokenRefreshAuthenticate($app['auth']);
+            });
     }
 
     /**
